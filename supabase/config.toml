@@ -1,0 +1,45 @@
+# Supabase local configuration — run `npx supabase link` after creating a cloud project.
+# https://supabase.com/docs/guides/cli/config
+
+project_id = "daily-tens-local"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[functions.get-daily-puzzle]
+verify_jwt = false
+
+[functions.submit-result]
+verify_jwt = true
+
+[functions.admin-upsert-puzzle]
+verify_jwt = true
+
+[functions.admin-publish]
+verify_jwt = true

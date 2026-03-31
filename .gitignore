@@ -1,0 +1,10 @@
+.env
+.env.local
+node_modules/
+.branches/
+.temp/
+dist/
+web/dist/
+.vercel
+*.local
+supabase/.temp/

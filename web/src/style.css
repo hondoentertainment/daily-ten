@@ -1,0 +1,108 @@
+:root {
+  color-scheme: light dark;
+  --bg: #0f1419;
+  --fg: #e8eef4;
+  --muted: #8b9aab;
+  --accent: #b5cde2;
+  --panel: rgba(255, 255, 255, 0.06);
+  font-family: "Source Serif 4", Georgia, serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f0eb;
+    --fg: #1a1f26;
+    --muted: #5c6570;
+    --accent: #3d5a80;
+    --panel: rgba(0, 0, 0, 0.04);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.wrap {
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+h1 {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.lede {
+  font-size: 1.125rem;
+  color: var(--muted);
+  margin: 0 0 2rem;
+  line-height: 1.5;
+}
+
+.panel {
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.panel h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.board {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.board li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.score {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.check {
+  color: var(--fg);
+  line-height: 1.8;
+}
+
+.foot {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.foot a {
+  color: var(--accent);
+}
+
+code {
+  font-size: 0.88em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--panel);
+}

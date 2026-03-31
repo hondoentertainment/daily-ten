@@ -1,0 +1,20 @@
+{
+  "name": "daily-ten",
+  "private": true,
+  "description": "Daily Tens — Supabase backend + Vite web (Vercel)",
+  "workspaces": ["web"],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build -w web",
+    "dev": "npm run dev -w web",
+    "supabase": "supabase",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "functions:deploy": "supabase functions deploy get-daily-puzzle submit-result admin-upsert-puzzle admin-publish"
+  },
+  "devDependencies": {
+    "supabase": "^2.12.0"
+  }
+}
