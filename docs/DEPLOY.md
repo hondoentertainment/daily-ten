@@ -17,7 +17,9 @@ gh repo create <your-repo-name> --public --source=. --remote=origin --push
 
 ## Vercel
 
-1. Open [vercel.com/new](https://vercel.com/new) and **Import** the GitHub repository.
+This repo is already wired for Vercel: root [`vercel.json`](../vercel.json) builds `web/dist`. If you import fresh:
+
+1. Open [vercel.com/new](https://vercel.com/new) and **Import** the GitHub repository ([hondoentertainment/daily-ten](https://github.com/hondoentertainment/daily-ten)).
 2. Vercel reads root [`vercel.json`](../vercel.json): install `npm ci`, build `npm run build`, output **`web/dist`**.
 3. **Environment variables** (Project → Settings → Environment Variables), for **Production** and **Preview**:
 
@@ -29,6 +31,8 @@ gh repo create <your-repo-name> --public --source=. --remote=origin --push
 4. Redeploy after adding env vars (**Deployments → … → Redeploy**).
 
 `VITE_*` variables are inlined at **build** time. Changing them requires a new deployment.
+
+5. In **Supabase** → Authentication → URL configuration, add your Vercel URL (e.g. `https://daily-ten-orcin.vercel.app`) to **Site URL** and **Redirect URLs** if you use email magic links or OAuth.
 
 ## Supabase (separate from Vercel)
 

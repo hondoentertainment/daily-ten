@@ -5,6 +5,11 @@ Postgres schema, RLS, seed data, and Edge Functions for the Daily Tens rebuild.
 **Product spec and roadmap:** [docs/PRD.md](docs/PRD.md).  
 **GitHub + Vercel:** [docs/DEPLOY.md](docs/DEPLOY.md).
 
+### Live
+
+- **Repository:** [github.com/hondoentertainment/daily-ten](https://github.com/hondoentertainment/daily-ten)
+- **Production site:** [daily-ten-orcin.vercel.app](https://daily-ten-orcin.vercel.app) (add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in Vercel → Settings → Environment Variables, then redeploy)
+
 ## Quick start
 
 1. Copy [`.env.example`](.env.example) and fill in project keys.
