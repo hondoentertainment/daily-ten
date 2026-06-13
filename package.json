@@ -2,19 +2,33 @@
   "name": "daily-ten",
   "private": true,
   "description": "Daily Tens — Supabase backend + Vite web (Vercel)",
-  "workspaces": ["web"],
+  "workspaces": [
+    "web"
+  ],
   "engines": {
     "node": ">=20"
   },
   "scripts": {
     "build": "npm run build -w web",
     "dev": "npm run dev -w web",
+    "test": "npm run test:unit && npm run test:deno",
+    "test:unit": "npm run test -w web",
+    "test:unit:coverage": "npm run test:coverage -w web",
+    "test:deno": "deno test --allow-env supabase/functions/_shared/cors_test.ts supabase/functions/_shared/cors_origins_test.ts supabase/functions/_shared/daily_tens_test.ts",
+    "test:e2e": "npm run build && playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:db": "supabase test db",
+    "test:all": "npm run test && npm run test:e2e",
     "supabase": "supabase",
     "db:push": "supabase db push",
     "db:reset": "supabase db reset",
-    "functions:deploy": "supabase functions deploy get-daily-puzzle submit-result admin-upsert-puzzle admin-publish"
+    "functions:deploy": "supabase functions deploy get-daily-puzzle submit-result admin-upsert-puzzle admin-publish",
+    "check:deploy": "node scripts/check-deploy.mjs"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "@playwright/test": "^1.50.0",
+    "deno-bin": "^2.2.7",
     "supabase": "^2.12.0"
   }
 }

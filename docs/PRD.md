@@ -108,8 +108,20 @@ Requirements use **MoSCoW** priority. IDs are stable for roadmap traceability.
 | P2 | Fetch published puzzle for a date; reject future dates for public play. | Must |
 | P3 | Puzzle structure stored in **`puzzle_payload` JSONB**; client interprets schema version in payload or `puzzles.version`. | Must |
 | P4 | Unlimited attempts per user per puzzle; each completion may **submit** a result. | Must |
-| P5 | Optional: server-side validation hooks (e.g. max score, required fields) in `submit-result`. | Should |
+| P5 | **`submit-result`** grades from **`answers`** + stored `puzzle_payload` (server-computed score 0–100); client cannot set raw score. | Must |
 | P6 | Optional: anti-cheat signals (`client_meta`, timing heuristics)—no false-positive mass bans without review. | Could |
+
+#### `puzzle_payload` v1 — `daily_tens_v1` (and alias `daily_tens`)
+
+The shipped web client accepts a single JSON object shape (see [`web/src/lib/puzzle-types.ts`](../web/src/lib/puzzle-types.ts)):
+
+| Field | Type | Required | Notes |
+|-------|------|----------|--------|
+| `type` | string | Yes | `"daily_tens_v1"` or legacy `"daily_tens"`. |
+| `prompt` | string | Yes | Shown above the answer inputs. |
+| `answers` | string[] | Yes | Ordered correct answers; grading is case/trim normalized per client. |
+
+Future versions may add `type` values or nested structures; bump `puzzles.version` when changing semantics.
 
 ### 6.3 Scoring and leaderboard
 
@@ -183,7 +195,7 @@ Requirements use **MoSCoW** priority. IDs are stable for roadmap traceability.
 | PostgREST + RLS | Direct reads where policies allow (e.g. published `puzzles`). |
 | `get_leaderboard` RPC | Public leaderboard from anon/authenticated client. |
 | `get-daily-puzzle` | Edge Function; service-role-backed consistent JSON. |
-| `submit-result` | Edge Function; JWT required; inserts `game_results`. |
+| `submit-result` | Edge Function; JWT + **`answers`**; server grades; inserts `game_results`. |
 | `admin-*` | Edge Functions; JWT + `profiles.role = admin`. |
 
 **Legacy note:** Production [dailytens.com](https://dailytens.com) historically used a single Azure REST host. A future **compatibility gateway** could map those paths to this backend if drop-in replacement is required.

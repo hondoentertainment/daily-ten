@@ -8,3 +8,8 @@ web/dist/
 .vercel
 *.local
 supabase/.temp/
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+web/coverage/

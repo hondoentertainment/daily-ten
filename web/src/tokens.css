@@ -1,0 +1,28 @@
+:root {
+  color-scheme: light dark;
+  --dt-bg: #0f1419;
+  --dt-fg: #e8eef4;
+  /* WCAG AA body text on --dt-bg (~6:1) */
+  --dt-muted: #b3c2cf;
+  --dt-accent: #9dcbf0;
+  --dt-link: #b8dafb;
+  --dt-panel: rgba(255, 255, 255, 0.08);
+  --dt-danger: #ff8a80;
+  --dt-space-sm: 0.5rem;
+  --dt-space-md: 1rem;
+  --dt-space-lg: 1.5rem;
+  --dt-radius: 12px;
+  --dt-touch-min: 44px;
+  font-family: "Source Serif 4", Georgia, serif;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --dt-bg: #f4f0eb;
+    --dt-fg: #1a1f26;
+    --dt-muted: #3d4a57;
+    --dt-accent: #2c5282;
+    --dt-link: #1a4480;
+    --dt-panel: rgba(0, 0, 0, 0.06);
+  }
+}

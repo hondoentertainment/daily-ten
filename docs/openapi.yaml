@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: Daily Tens Edge Functions
+  version: 1.0.0
+  description: |
+    HTTP JSON API served at `{SUPABASE_URL}/functions/v1/{name}`.
+    Browser calls send `apikey` + `Authorization` (anon JWT or user access_token).
+servers:
+  - url: https://{project_ref}.supabase.co/functions/v1
+    variables:
+      project_ref:
+        default: YOUR_PROJECT_REF
+paths:
+  /get-daily-puzzle:
+    get:
+      summary: Published puzzle for a date
+      parameters:
+        - in: query
+          name: play_date
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  puzzle:
+                    $ref: "#/components/schemas/PuzzlePublic"
+        "404": { description: Not found }
+    post:
+      summary: Same as GET with body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                play_date: { type: string, format: date }
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  puzzle:
+                    $ref: "#/components/schemas/PuzzlePublic"
+  /submit-result:
+    post:
+      summary: Submit a score (authenticated)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [puzzle_id, answers]
+              properties:
+                puzzle_id: { type: string, format: uuid }
+                answers:
+                  type: array
+                  items: { type: string }
+                  description: Ordered player answers; server grades from stored puzzle_payload (daily_tens_v1).
+                time_ms: { type: integer, minimum: 0 }
+                client_meta: { type: object }
+      responses:
+        "200": { description: OK }
+        "401": { description: Unauthorized }
+        "429": { description: Rate limited }
+  /admin-upsert-puzzle:
+    post:
+      summary: Upsert puzzle (admin JWT)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [play_date]
+              properties:
+                play_date: { type: string, format: date }
+                puzzle_payload: { type: object }
+                title: { type: string, nullable: true }
+                status: { enum: [draft, published] }
+                version: { type: integer, minimum: 1 }
+                checksum: { type: string, nullable: true }
+      responses:
+        "200": { description: OK }
+        "403": { description: Forbidden }
+  /admin-publish:
+    post:
+      summary: Set published/draft (admin JWT)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [play_date, status]
+              properties:
+                play_date: { type: string, format: date }
+                status: { enum: [published, draft] }
+      responses:
+        "200": { description: OK }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    PuzzlePublic:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        play_date: { type: string, format: date }
+        puzzle_payload:
+          type: object
+          description: See PRD — daily_tens_v1 shape
+        version: { type: integer }
+        title: { type: string, nullable: true }
+        checksum: { type: string, nullable: true }

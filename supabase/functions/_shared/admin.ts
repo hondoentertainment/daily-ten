@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.1";
+import { corsHeadersForRequest } from "./cors.ts";
 
 type ServiceClient = ReturnType<typeof createClient>;
 
@@ -20,7 +21,7 @@ export async function requireAdmin(
           status: 401,
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            ...corsHeadersForRequest(req),
           },
         },
       ),
@@ -39,7 +40,7 @@ export async function requireAdmin(
         status: 401,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          ...corsHeadersForRequest(req),
         },
       }),
     };
@@ -59,7 +60,7 @@ export async function requireAdmin(
         status: 403,
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
+          ...corsHeadersForRequest(req),
         },
       }),
     };

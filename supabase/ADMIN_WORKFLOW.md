@@ -1,5 +1,7 @@
 # Admin workflow (Daily Tens backend)
 
+**HTTP contracts:** [`docs/API.md`](../docs/API.md) · [`docs/openapi.yaml`](../docs/openapi.yaml). **CORS / rate limits:** [`docs/SECURITY.md`](../docs/SECURITY.md).
+
 ## Supabase Studio
 
 1. Open your project in [Supabase Dashboard](https://supabase.com/dashboard) → **SQL Editor** or **Table Editor**.
@@ -56,7 +58,7 @@ curl -s -X POST \
   "https://PROJECT_REF.supabase.co/functions/v1/submit-result" \
   -H "Authorization: Bearer USER_JWT" \
   -H "Content-Type: application/json" \
-  -d "{\"puzzle_id\":\"PUZZLE_UUID\",\"score\":10,\"time_ms\":12000}"
+  -d "{\"puzzle_id\":\"PUZZLE_UUID\",\"answers\":[\"…ordered strings…\"],\"time_ms\":12000}"
 ```
 
 ## Optional minimal admin UI
@@ -85,3 +87,13 @@ npx supabase functions deploy get-daily-puzzle submit-result admin-upsert-puzzle
 ```
 
 Set function secrets in Dashboard → **Edge Functions → Secrets** if anything is missing; hosted functions receive `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` automatically.
+
+**Recommended production secrets**
+
+| Name | Example |
+|------|---------|
+| `ALLOWED_ORIGINS` | `https://your-app.vercel.app,https://yourdomain.com` |
+| `SUBMIT_RATE_LIMIT_USER_PER_MIN` | `30` |
+| `SUBMIT_RATE_LIMIT_IP_PER_MIN` | `60` |
+
+Leave `ALLOWED_ORIGINS` unset for `*` (local dev only).

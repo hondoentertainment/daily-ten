@@ -5,8 +5,8 @@ VALUES (
   (CURRENT_TIMESTAMP AT TIME ZONE 'utc')::date,
   'published',
   jsonb_build_object(
-    'type', 'daily_tens',
-    'prompt', 'Sample daily puzzle',
+    'type', 'daily_tens_v1',
+    'prompt', 'Sample daily puzzle — enter the ten answers in order (see seed).',
     'answers', jsonb_build_array('ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN')
   ),
   'Development seed'
