@@ -70,5 +70,8 @@ jobs:
           done
           exit 1
 
+      - name: Apply migrations for pgTAP
+        run: npx supabase db reset --yes
+
       - name: pgTAP database tests
         run: npx supabase test db
