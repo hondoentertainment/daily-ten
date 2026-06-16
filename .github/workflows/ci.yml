@@ -59,7 +59,16 @@ jobs:
         run: npm ci
 
       - name: Start Supabase local (Docker)
-        run: npx supabase start
+        run: |
+          for attempt in 1 2 3; do
+            if npx supabase start; then
+              exit 0
+            fi
+            echo "supabase start failed (attempt $attempt), retrying in 30s..."
+            npx supabase stop --no-backup 2>/dev/null || true
+            sleep 30
+          done
+          exit 1
 
       - name: pgTAP database tests
         run: npx supabase test db

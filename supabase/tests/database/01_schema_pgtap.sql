@@ -14,7 +14,16 @@ select has_column('public', 'game_results', 'score');
 
 select has_function('public', 'get_leaderboard', array['date']);
 
-select has_policy('public', 'puzzles', 'puzzles_select_published');
+select ok(
+  exists(
+    select 1
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'puzzles'
+      and policyname = 'puzzles_select_published'
+  ),
+  'puzzles_select_published policy exists'
+);
 
 select * from finish();
 rollback;
