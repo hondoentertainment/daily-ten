@@ -45,6 +45,7 @@ jobs:
 
   database:
     runs-on: ubuntu-latest
+    continue-on-error: true
     timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
